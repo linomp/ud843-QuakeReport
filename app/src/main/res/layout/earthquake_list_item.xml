@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/list_item_magnitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:gravity="left"
+        android:padding="6dp"
+        android:text="TextView"
+        android:textSize="14sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/list_item_location"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="8.9" />
+
+    <TextView
+        android:id="@+id/list_item_location"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:gravity="end"
+        android:padding="6dp"
+        android:text="TextView"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/list_item_magnitude"
+        app:layout_constraintEnd_toStartOf="@+id/list_item_date"
+        app:layout_constraintStart_toEndOf="@+id/list_item_magnitude"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="San Francisco, CA" />
+
+    <TextView
+        android:id="@+id/list_item_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:gravity="end"
+        android:padding="6dp"
+        android:text="TextView"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/list_item_location"
+        app:layout_constraintEnd_toStartOf="@+id/time"
+        app:layout_constraintTop_toTopOf="@+id/list_item_location"
+        tools:text="Mar 6, 2010" />
+
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="@+id/list_item_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/list_item_date"
+        tools:text="3:00 PM" />
+
+
+</android.support.constraint.ConstraintLayout>
