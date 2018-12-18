@@ -61,11 +61,12 @@ public final class QueryUtils {
 
                 JSONObject feature = jsonArray.getJSONObject(i);
                 JSONObject properties = feature.optJSONObject("properties");
-                String mag = String.valueOf(properties.optInt("mag"));
+                double magnitude = properties.getDouble("mag");
                 String place = properties.optString("place");
                 long unixMillis = properties.optLong("time");
                 String date = getDateFromUnixTS(unixMillis);
-                earthquakes.add(new Earthquake(mag, place, unixMillis));
+                String url = properties.optString("url");
+                earthquakes.add(new Earthquake(magnitude, place, unixMillis, url));
             }
 
         } catch (JSONException e) {

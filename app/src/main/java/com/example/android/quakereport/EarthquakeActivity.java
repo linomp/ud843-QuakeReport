@@ -15,8 +15,12 @@
  */
 package com.example.android.quakereport;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -51,5 +55,18 @@ public class EarthquakeActivity extends AppCompatActivity {
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
         earthquakeListView.setAdapter(adapter);
+        earthquakeListView.setOnItemClickListener((parent, view, position, id) -> {
+            String detailsUrl = (String) view.getTag();
+            startBrowserIntent( detailsUrl );
+        });
+    }
+
+    public void startBrowserIntent(String detailsUrl){
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+        browserIntent.setData(Uri.parse(detailsUrl));
+        startActivity(browserIntent);
     }
 }
+
+
+
