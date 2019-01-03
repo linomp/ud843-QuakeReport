@@ -17,6 +17,7 @@ package com.example.android.quakereport;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -25,21 +26,46 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EarthquakeActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = EarthquakeActivity.class.getName();
+    private ListView earthquakeListView;
+    public static final String REQUEST_URL =
+            "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2014-01-01&endtime=2014-01-02";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.earthquake_activity);
 
-        ArrayList<Earthquake> earthquakes = QueryUtils.extractEarthquakes();
-
         // Find a reference to the {@link ListView} in the layout
-        ListView earthquakeListView = (ListView) findViewById(R.id.list);
+        earthquakeListView = (ListView) findViewById(R.id.list);
 
+        new EarthquakesAsyncTask().execute( REQUEST_URL );
+    }
+
+    private class EarthquakesAsyncTask extends AsyncTask<String, Void, List<Earthquake>> {
+        @Override
+        protected List<Earthquake> doInBackground(String... urls) {
+            if (urls.length < 1 || urls[0] == null) {
+                return null;
+            }
+            List<Earthquake> earthquakes = QueryUtils.getEarthquakes(urls[0]);
+            return earthquakes;
+        }
+
+        @Override
+        protected void onPostExecute (List<Earthquake> earthquakes){
+            if (earthquakes == null) {
+                return;
+            }
+            updateUI(earthquakes);
+        }
+    }
+
+    private void updateUI(List<Earthquake> earthquakes){
         // Create a new {@link ArrayAdapter} of earthquakes
         ArrayAdapter<Earthquake> adapter = new EarthquakeAdapter(
                 this, earthquakes);
@@ -58,6 +84,7 @@ public class EarthquakeActivity extends AppCompatActivity {
         browserIntent.setData(Uri.parse(detailsUrl));
         startActivity(browserIntent);
     }
+
 }
 
 
