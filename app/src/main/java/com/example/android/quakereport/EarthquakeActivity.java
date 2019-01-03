@@ -15,7 +15,9 @@
  */
 package com.example.android.quakereport;
 
+import android.app.LoaderManager;
 import android.content.Intent;
+import android.content.Loader;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,7 +30,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EarthquakeActivity extends AppCompatActivity {
+public class EarthquakeActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Earthquake>> {
 
     public static final String LOG_TAG = EarthquakeActivity.class.getName();
     private ListView earthquakeListView;
@@ -43,10 +45,32 @@ public class EarthquakeActivity extends AppCompatActivity {
         // Find a reference to the {@link ListView} in the layout
         earthquakeListView = (ListView) findViewById(R.id.list);
 
-        new EarthquakesAsyncTask().execute( REQUEST_URL );
+        //new EarthquakesAsyncTask().execute( REQUEST_URL );
+        Bundle bundle = new Bundle();
+        bundle.putString("url", REQUEST_URL);
+        getLoaderManager().initLoader(0, bundle, this);
+
     }
 
-    private class EarthquakesAsyncTask extends AsyncTask<String, Void, List<Earthquake>> {
+    @Override
+    public Loader<List<Earthquake>> onCreateLoader(int i, Bundle bundle) {
+        return new EarthquakeLoader(this, bundle.getString("url"));
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<Earthquake>> loader, List<Earthquake> earthquakes) {
+        if (earthquakes == null) {
+            return;
+        }
+        updateUI(earthquakes);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<Earthquake>> loader) {
+        updateUI(new ArrayList<Earthquake>());
+    }
+
+    /*private class EarthquakesAsyncTask extends AsyncTask<String, Void, List<Earthquake>> {
         @Override
         protected List<Earthquake> doInBackground(String... urls) {
             if (urls.length < 1 || urls[0] == null) {
@@ -63,7 +87,7 @@ public class EarthquakeActivity extends AppCompatActivity {
             }
             updateUI(earthquakes);
         }
-    }
+    }*/
 
     private void updateUI(List<Earthquake> earthquakes){
         // Create a new {@link ArrayAdapter} of earthquakes
