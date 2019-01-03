@@ -3,6 +3,7 @@ package com.example.android.quakereport;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EarthquakeLoader extends AsyncTaskLoader<List<Earthquake>> {
@@ -25,6 +26,8 @@ public class EarthquakeLoader extends AsyncTaskLoader<List<Earthquake>> {
             return null;
         }
         List<Earthquake> earthquakes = QueryUtils.getEarthquakes(urls[0]);
+        // to test the empty state
+        //List<Earthquake> earthquakes = new ArrayList<>();
         return earthquakes;
     }
 
